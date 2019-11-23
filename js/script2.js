@@ -3,12 +3,23 @@ window.PhotoCollage={};
 
 
 
-
 function make_base()
 {
-   var man = document.getElementById('man');  
-    var imageObj=new Image();     
+// var canvas = document.getElementById('canvas'),
+// context = canvas.getContext('2d');
+//   base_image = new Image();
+//   base_image.src = 'img/man.png';
+//   base_image.onload = function(){
+//     context.drawImage(base_image, 0, 0);
+//   }
+
+    var man = document.getElementById('man');
+  
+    var imageObj=new Image();
+  // man.onload = function() {      
     var width = man.width;
+
+
     var height = man.height;
     var ratio = height/ width ; 
     var heights = width/ratio;
@@ -16,8 +27,8 @@ function make_base()
    
     imageObj.src=man.src;
     imageObj.draggable = false;
-    imageObj.width = PhotoCollage.width/ratio-70;
-    imageObj.height = PhotoCollage.height-70;
+    imageObj.width = PhotoCollage.width/ratio-50;
+    imageObj.height = PhotoCollage.height;
     insertAtCenter(imageObj);
      
 
@@ -38,9 +49,6 @@ function make_base()
 
 
 
-
-
-
 //Initilizing canvas
 function  init() {
 
@@ -50,11 +58,6 @@ function  init() {
 		canvasWrapper.addEventListener("keydown", OnkeyDown	, false);
     canvasWrapper.addEventListener("drop",OnImageDrop,false);
     canvasWrapper.addEventListener("dragover",OnImageDragOver,false);
-    
-
-
-
-
 
     //Canvas Properties
 		PhotoCollage = new fabric.Canvas('canvas');
@@ -66,12 +69,12 @@ function  init() {
     //Not made visible as tainted canvas cannot be dowbloaded
     //due to CORS origin policy
     document.getElementById('download').addEventListener('click', function() {
-    downloadCanvas(this, 'canvas', 'photo_collage.png');
+    downloadCanvas(this, 'canvas', 'photo_collage.jpg');
 }, false);
 
     //Dummy Image Fixtures
     AddDummyImages();
-    make_base();
+     make_base();
 
 }
 
@@ -89,8 +92,10 @@ function  OnImageDrop(event) {
     event.preventDefault();
     var imageObj=new Image();
     imageObj.src=event.dataTransfer.getData("text");
-      imageObj.width = 64;
-    imageObj.height = 64;
+      imageObj.width = 200;
+    imageObj.height = 50;
+
+
     insertAtCenter(imageObj);
     
 }
@@ -107,30 +112,47 @@ function drag(event) {
 }
 
 
-
-function insertDress(imgElement){
-
-  imgElement.setAttribute('crossOrigin', 'anonymous');
-	var imgInstance = new fabric.Image(imgElement, {
-    left: PhotoCollage.getWidth()/2-imgElement.width/2,
-    top: 20,  
-    angle: 0,
-});
-	PhotoCollage.add(imgInstance);
+//On Upload Image Display it
+// function displayimg(event){
+  // var selectedFile = event.target.files[0];
 
 
-}
+  //   var reader = new FileReader();
+  // var preview=document.getElementById("img_drop");
 
+  //On Image Load
+  // preview.onload=function(){
+    //  var imageObj = new Image();
+     
+    //  imageObj.src=this.src;
 
+    // insertAtCenter(imageObj);
+  // };
+  
+  //On File Read Complete
+  // reader.onload=function () {
+  //   preview.src=reader.result;
+  // };
+
+  // if (selectedFile) {
+  //   reader.readAsDataURL(selectedFile);
+  // }
+
+// }
 
 
 //Insert and Add object to canvas 
 function insertAtCenter(imgElement){
+
+
   imgElement.setAttribute('crossOrigin', 'anonymous');
+
+
+
+
 	var imgInstance = new fabric.Image(imgElement, {
     left: PhotoCollage.getWidth()/2-imgElement.width/2,
     top: PhotoCollage.getHeight()/2-imgElement.height/2,
-    // top: 0,
     angle: 0,
 });
 	PhotoCollage.add(imgInstance);
@@ -156,7 +178,6 @@ function  AddDummyImages() {
      
       var img=new Image();
       img.draggable="true";
-      img.className="dress";
       img.addEventListener("dragstart",drag,false);
       img.src="img/"+(i+1)+".png";
       
@@ -164,39 +185,4 @@ function  AddDummyImages() {
      imgContainer.appendChild(imagediv);
       
    }
-
-   var dress = document.querySelectorAll('.dress');
-
-var index, item;
-
-for (index = 0; index < dress.length; index++) {
-    item = dress[index];
-    item.addEventListener('click', function (event) { 
-    var image = this; 
-    var imageObj=new Image();
-    imageObj.src=image.src;
-    imageObj.width = 54;
-    imageObj.height = 54;
-    insertDress(imageObj); 
-
-      
-    });
-}
-}
-
-
- var menu_canvas_items = document.querySelectorAll('.menu_canvas_item');
- var menu_canvas_item;
-
- for (var i = 0; i < menu_canvas_items.length; i++) {
-     menu_canvas_item = menu_canvas_items[i];
-     menu_canvas_item.addEventListener('click', function (event) { 
-     	alert("hhhh");
-     	console.log(this);
-     for (var a = 0; a < menu_canvas_items.length; i++) {
-       menu_canvas_items[a].classList.remove('active');
-     }
-     this.classList.add('active');
-    
- });
 }

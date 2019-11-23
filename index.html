@@ -21,16 +21,23 @@
 <body>
 <!--Container-->
 	<div class="canvas_control">
-		
-		<div class="canvas_info">
-			<a href="#" class="btn btn-info" id="download" role="button">Download</a>
-		</div>
-
+		<div class="col-md-12">
+			<div class="col-xs-9">
 	 	<div id="canvasWrap" class="canvasWrap">
-   			 <canvas id="canvas" class="canvas_collage" width="800" height="450"></canvas>
+   			 <canvas id="canvas" class="canvas_collage" width="600" height="450"></canvas>
   		 </div>
+  		</div>
+  		<div class="col-xs-3 menu_canvas_container">   
+          <ul class="feachers_list">
+		    <li class="active menu_canvas_item" >hat</li>
+		    <li class="menu_canvas_item">t-shirt</li>
+		    <li class="menu_canvas_item">face</li>
+		    <li class="menu_canvas_item">smile</li>
+		    <li class="menu_canvas_item">trousers</li>   
+         </ul>
+        </div>
 	</div>
-
+</div>
 
 
 
@@ -44,16 +51,8 @@
 	 		</div>
 	  </div>
 
-	  <!--Image nav Bar -->
-	  <div class="col-xs-6 col-md-3">
-	   	 <div class="input-wrapper">
-		   	 <label for="imginput">
-	    		 <div class="uploadbtn">+ Upload</div>
-	   		 </label>
-			<input type="file" id="imginput" class="imginput" name="imginput" accept="image/*" 
-			onchange="displayimg(event)">
-		</div>
-	  </div>
+	  <a href="#" class="btn btn-info" id="download" role="button">Download</a>
+
 
 	</div>
 </div>
