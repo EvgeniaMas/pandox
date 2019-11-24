@@ -1,206 +1,159 @@
-window.onload=init;
-window.PhotoCollage={};
+window.onload=startConstructor;
+window.PlayerConstructor = {};
 
-
-
-
-function make_base()
-{
-   var man = document.getElementById('man');  
-    var imageObj=new Image();     
-    var width = man.width;
-    var height = man.height;
-    var ratio = height/ width ; 
-    var heights = width/ratio;
-
-   
-    imageObj.src=man.src;
-    imageObj.draggable = false;
-    imageObj.width = PhotoCollage.width/ratio-70;
-    imageObj.height = PhotoCollage.height-70;
-    insertAtCenter(imageObj);
-
-
-
-
-
-     
-
-//       imageObj.setAttribute('crossOrigin', 'anonymous');
-//       var imageObjInstance = new fabric.Image(imageObj, {
-//     left: 20,
-//     top: 20,
-//     angle: 0,
-// });
-//   PhotoCollage.add(imageObjInstance);
-
-
+var womanPlayer= {
+  1: {
+    name: 'hat', amount: 2, top:15, width: 54, height:44
+  },
+    5: {
+    name: 'glasses', amount: 2, top:55,  width: 32, height:20
+  }
 }
 
+var manPlayer= {
+  1: {
+    name: 'hat', amount: 3, top:15, width: 54, height:44
+  },
+  5: {
+    name: 'glasses', amount: 2, top:55,  width: 32, height:20
+  }
+}
 
+var player_gender = document.querySelector('input[type="radio"]:checked').value;
+if(player_gender==null){
+player_gender = 'man';
+}
 
-
-
-
-
-
-
-
-//Initilizing canvas
-function  init() {
-
-    //Canvas Attach Event Handlers
-		// var canvasWrapper = document.getElementById('canvasWrap');
-		// canvasWrapper.tabIndex = -1	;
-		// canvasWrapper.addEventListener("keydown", OnkeyDown	, false);
-  //   canvasWrapper.addEventListener("drop",OnImageDrop,false);
-  //   canvasWrapper.addEventListener("dragover",OnImageDragOver,false);
+function showPlayer(){
+  var person;
+  if(player_gender=='woman'){
+    person = document.getElementById('woman');
+  }
+  else{
+    person = document.getElementById('man');
+  }
     
+    var imageObj=new Image();     
+    var width = person.width;
+    var height = person.height;
+    var ratio = height/ width ; 
+    var heights = width/ratio;   
+    imageObj.src=person.src;
+    imageObj.draggable = false;
+    imageObj.width = PlayerConstructor.width/ratio-70;
+    imageObj.height = PlayerConstructor.height-70;
+    setImageAtCenter(imageObj);
+}
+//Initilizing canvas
+function startConstructor() {
+   //Canvas Properties
+		PlayerConstructor = new fabric.Canvas('canvas');
+		PlayerConstructor.selectionColor = 'rgba(0,0,0,0.3)';
+		PlayerConstructor.selectionBorderColor = 'black';
+		PlayerConstructor.selectionLineWidth = 1;
 
-
-
-
-
-    //Canvas Properties
-		PhotoCollage = new fabric.Canvas('canvas');
-		PhotoCollage.selectionColor = 'rgba(0,0,0,0.3)';
-		PhotoCollage.selectionBorderColor = 'black';
-		PhotoCollage.selectionLineWidth = 1;
-
-    //DownLoad Canvas  As Image
-    //Not made visible as tainted canvas cannot be dowbloaded
-    //due to CORS origin policy
     document.getElementById('download').addEventListener('click', function() {
     downloadCanvas(this, 'canvas', 'photo_collage.png');
 }, false);
 
-    //Dummy Image Fixtures
-    AddDummyImages();
-    make_base();
-
-
-
-
+    //Dress Images load
+    showDress();
+    showPlayer();
 }
-
 //Add Key Down Event 
 //On Delete Remove Selected Object from canvas 
 function OnkeyDown(event){
-    var activeObject = PhotoCollage.getActiveObject();
+    var activeObject = PlayerConstructor.getActiveObject();
     if (event.keyCode === 46) {
-    	PhotoCollage.remove(activeObject);
+    	PlayerConstructor.remove(activeObject);
     }
 }
 
-//Add Drop Event Listner to get images into canvas
-function  OnImageDrop(event) {
-    event.preventDefault();
-    var imageObj=new Image();
-    imageObj.src=event.dataTransfer.getData("text");
-      imageObj.width = 54;
-    imageObj.height = 54;
-    insertAtCenter(imageObj);
-   
-}
-
-
-//Image drag over event
-// function OnImageDragOver(event) {
-//   event.preventDefault();
-// }
-
-//Set Image src on drag start
-// function drag(event) {
-//     event.dataTransfer.setData("text",event.target.src);
-// }
-function insertDress(imgElement){
-  imgElement.className="items";
-  imgElement.setAttribute('crossOrigin', 'anonymous');
-  imgElement.setAttribute('name', 'hat'); // 
-
+// insert new dress to canvas during constructuing a player;
+function insertDress(imgElement, folder, type){
+var top = folder[type].top; 
+var name =  folder[type].name; 
+imgElement.className='items';
+imgElement.setAttribute('crossOrigin', 'anonymous');
+imgElement.setAttribute('name', name); 
 	var imgInstance = new fabric.Image(imgElement, {
-    left: PhotoCollage.getWidth()/2-imgElement.width/2,
-    top: 10,  
+    left: PlayerConstructor.getWidth()/2-imgElement.width/2,
+    top: top,  
     angle: 0,
 });
-var objects = PhotoCollage.getObjects();
+var objects = PlayerConstructor.getObjects();
 for (var i = 0; i < objects.length; ) {
-  if (objects[i]._element.name == 'hat') {
-    PhotoCollage.remove(objects[i]);
+  if (objects[i]._element.name == name) {
+    PlayerConstructor.remove(objects[i]);
     i = 0;
   } else {
     i++;
   }
 }
-PhotoCollage.add(imgInstance);
-
-
+PlayerConstructor.add(imgInstance);
 }
-
-
-
-
 //Insert and Add object to canvas 
-function insertAtCenter(imgElement){
+function setImageAtCenter(imgElement){
   imgElement.setAttribute('crossOrigin', 'anonymous');
 	var imgInstance = new fabric.Image(imgElement, {
-    left: PhotoCollage.getWidth()/2-imgElement.width/2,
-    top: PhotoCollage.getHeight()/2-imgElement.height/2,
+    left: PlayerConstructor.getWidth()/2-imgElement.width/2,
+    top: PlayerConstructor.getHeight()/2-imgElement.height/2,
     // top: 0,
     angle: 0,
 });
-	PhotoCollage.add(imgInstance);
-
+	PlayerConstructor.add(imgInstance);
 }
 
-//Download canvas Image
-function downloadCanvas(link, canvasId, filename) {
-    link.href = document.getElementById(canvasId).toDataURL();
-    link.download = filename;
-}
-
-//Add dummy Images
-//Not Proper way, need to implement image search to display few images on basis of search.
-function  AddDummyImages() {
+// show first dress items on load and add eventListener 
+// for clicking new dress items selection
+function  showDress() {
    var imgContainer=document.getElementById("img-container");
-    //Temporray  Fixtures.
-   var len=3;
-   for(var i=0;i<len;i++){
-      
+    var folder;
+    if(player_gender =='woman'){
+       folder = womanPlayer;
+    }
+    else{
+      folder = manPlayer;
+    }
+    var types = document.querySelector('.active.menu_canvas_item').getAttribute('data-part');
+    var type = Number(types);
+    var len = folder[type].amount;
+    var width = folder[type].width;
+    var height = folder[type].height;
+   for(var i=0; i<len; i++){      
       var imagediv=document.createElement("div");
-      imagediv.className="img-item";
-     
+      imagediv.className="img-item";     
       var img=new Image();
       img.draggable="true";
-      img.className="dress";
-      // img.addEventListener("dragstart",drag,false);
-      img.src="img/"+(i+1)+".png";
-      
+      img.className="dress";      
+      img.src=player_gender+"/"+folder[type].name+"/"+(i+1)+".png";      
       imagediv.appendChild(img);
-     imgContainer.appendChild(imagediv);
-      
-   }
+      imgContainer.appendChild(imagediv);      
+     }
 
    var dress = document.querySelectorAll('.dress');
-
-var index, item;
-
-for (index = 0; index < dress.length; index++) {
+   var index, item;
+   for (index = 0; index < dress.length; index++) {
     item = dress[index];
     item.addEventListener('click', function (event) { 
     var image = this; 
     var imageObj=new Image();
     imageObj.src=image.src;
-    imageObj.width = 54;
-    imageObj.height = 54;
-    insertDress(imageObj); 
-
-      
+    imageObj.width = width;
+    imageObj.height = height;
+    insertDress(imageObj, folder, type);       
     });
-}
+   }
 }
 
 
+
+
+
+
+
+
+// switching dress items menu
  var menu_canvas_items = document.querySelectorAll('.menu_canvas_item');
  var menu_canvas_item;
  for (var i = 0; i < menu_canvas_items.length; i++) {
@@ -210,35 +163,24 @@ for (index = 0; index < dress.length; index++) {
        menu_canvas_items[a].classList.remove('active');
      }     
     this.classList.add('active');
+    document.getElementById('img-container').innerHTML="";
+    showDress();
  });
 }
 
-
-
-
-function loadImages(i){
-    i = i || 1;
-    var img = new Image();    
-    img.onload = function(){
-      document.body.appendChild(img);
-        loadImages(++i);
-    }
-    img.src = 'img/' +i + '.jpg';
+var gender_selections = document.querySelectorAll('.gender');
+ var gender_selection;
+ for (var i = 0; i <gender_selections.length; i++) {
+     gender_selection = gender_selections[i];
+    gender_selection.addEventListener('change', function (event) {
+      document.getElementById('img-container').innerHTML="";
+      player_gender = document.querySelector('input[type="radio"]:checked').value;
+      PlayerConstructor = {};
+      startConstructor();
+ });
 }
-
-loadImages(5);
-
-
-
-// var objects = PhotoCollage.getObjects();
-
-// console.log(objects);
-
-// for (var i = 0; i < objects.length; ) {
-//   if (objects[i].name == 'cropArea' || objects[i].name == 'bleedLine') {
-//     canvas.remove(objects[i]);
-//     i = 0;
-//   } else {
-//     i++;
-//   }
-// }
+//Download canvas Image
+function downloadCanvas(link, canvasId, filename) {
+    link.href = document.getElementById(canvasId).toDataURL();
+    link.download = filename;
+}

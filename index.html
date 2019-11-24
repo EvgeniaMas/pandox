@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 	<meta name="viewport" content="width=device-width,
 	initial-scale=1">
@@ -14,23 +14,35 @@
 </head>
 
 <body>
+ <input class="gender option-input radio" type="radio" name="gender" value="man" >
+  <label for="gender">Man</label>
+
+  <input class="gender option-input radio" type="radio" name="gender" value="woman" checked="checked">
+  <label for="gender">Woman</label>
+
+
+
 <!--Container-->
 	<div class="canvas_control">
 		<div class="col-md-12">
 			<div class="col-xs-9">
 	 	<div id="canvasWrap" class="canvasWrap">
    			 <canvas id="canvas" class="canvas_collage" width="600" height="450"></canvas>
+   			 
   		 </div>
   		</div>
   		<div class="col-xs-3 menu_canvas_container">   
           <ul class="feachers_list">
-		    <li class="active menu_canvas_item" >hat</li>
-		    <li class="menu_canvas_item">t-shirt</li>
-		    <li class="menu_canvas_item">face</li>
-		    <li class="menu_canvas_item">glasses</li>
-		    <li class="menu_canvas_item">trousers</li>   
+		    <li class="active menu_canvas_item"  data-part="1">hat</li>
+		    <!-- <li class="menu_canvas_item" data-part="2">face</li>
+		    <li class="menu_canvas_item" data-part="3">shirt</li>		    		    
+		    <li class="menu_canvas_item" data-part="4">trousers</li>  -->
+		    <li class="menu_canvas_item" data-part="5">glasses</li> 
+		     
          </ul>
+         <a style="display:none;" href="#" class="btn btn-info" id="submit" role="button">Submit</a>
         </div>
+
 	</div>
 </div>
 
@@ -46,14 +58,13 @@
 	 		</div>
 	  </div>
 
-	  <a href="#" class="btn btn-info" id="download" role="button">Download</a>
+	  <a href="#" style="display:none;" class="btn btn-info" id="download" role="button">Download</a>
 
 
 	</div>
 </div>
-<img src="img/man.png" id="man" style="display:none;">
-<img src="img/man.png" id="woman" style="display:none;">
-
+<img src="man/man.png" id="man" style="display:none;">
+<img src="woman/woman.png" id="woman" style="display:none;">
 <script src="js/jquery-min.js"></script>  
 <script src="js/fabric.js"></script> 
 <script type="text/javascript" src="js/script.js"></script>
