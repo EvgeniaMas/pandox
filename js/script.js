@@ -19,6 +19,11 @@ function make_base()
     imageObj.width = PhotoCollage.width/ratio-70;
     imageObj.height = PhotoCollage.height-70;
     insertAtCenter(imageObj);
+
+
+
+
+
      
 
 //       imageObj.setAttribute('crossOrigin', 'anonymous');
@@ -45,11 +50,11 @@ function make_base()
 function  init() {
 
     //Canvas Attach Event Handlers
-		var canvasWrapper = document.getElementById('canvasWrap');
-		canvasWrapper.tabIndex = -1	;
-		canvasWrapper.addEventListener("keydown", OnkeyDown	, false);
-    canvasWrapper.addEventListener("drop",OnImageDrop,false);
-    canvasWrapper.addEventListener("dragover",OnImageDragOver,false);
+		// var canvasWrapper = document.getElementById('canvasWrap');
+		// canvasWrapper.tabIndex = -1	;
+		// canvasWrapper.addEventListener("keydown", OnkeyDown	, false);
+  //   canvasWrapper.addEventListener("drop",OnImageDrop,false);
+  //   canvasWrapper.addEventListener("dragover",OnImageDragOver,false);
     
 
 
@@ -73,6 +78,9 @@ function  init() {
     AddDummyImages();
     make_base();
 
+
+
+
 }
 
 //Add Key Down Event 
@@ -89,34 +97,42 @@ function  OnImageDrop(event) {
     event.preventDefault();
     var imageObj=new Image();
     imageObj.src=event.dataTransfer.getData("text");
-      imageObj.width = 64;
-    imageObj.height = 64;
+      imageObj.width = 54;
+    imageObj.height = 54;
     insertAtCenter(imageObj);
-    
+   
 }
 
 
 //Image drag over event
-function OnImageDragOver(event) {
-  event.preventDefault();
-}
+// function OnImageDragOver(event) {
+//   event.preventDefault();
+// }
 
 //Set Image src on drag start
-function drag(event) {
-    event.dataTransfer.setData("text",event.target.src);
-}
-
-
-
+// function drag(event) {
+//     event.dataTransfer.setData("text",event.target.src);
+// }
 function insertDress(imgElement){
-
+  imgElement.className="items";
   imgElement.setAttribute('crossOrigin', 'anonymous');
+  imgElement.setAttribute('name', 'hat'); // 
+
 	var imgInstance = new fabric.Image(imgElement, {
     left: PhotoCollage.getWidth()/2-imgElement.width/2,
-    top: 20,  
+    top: 10,  
     angle: 0,
 });
-	PhotoCollage.add(imgInstance);
+var objects = PhotoCollage.getObjects();
+for (var i = 0; i < objects.length; ) {
+  if (objects[i]._element.name == 'hat') {
+    PhotoCollage.remove(objects[i]);
+    i = 0;
+  } else {
+    i++;
+  }
+}
+PhotoCollage.add(imgInstance);
 
 
 }
@@ -157,7 +173,7 @@ function  AddDummyImages() {
       var img=new Image();
       img.draggable="true";
       img.className="dress";
-      img.addEventListener("dragstart",drag,false);
+      // img.addEventListener("dragstart",drag,false);
       img.src="img/"+(i+1)+".png";
       
       imagediv.appendChild(img);
@@ -187,16 +203,42 @@ for (index = 0; index < dress.length; index++) {
 
  var menu_canvas_items = document.querySelectorAll('.menu_canvas_item');
  var menu_canvas_item;
-
  for (var i = 0; i < menu_canvas_items.length; i++) {
      menu_canvas_item = menu_canvas_items[i];
      menu_canvas_item.addEventListener('click', function (event) { 
-     	alert("hhhh");
-     	console.log(this);
-     for (var a = 0; a < menu_canvas_items.length; i++) {
+     for (var a = 0; a < menu_canvas_items.length; a++) {
        menu_canvas_items[a].classList.remove('active');
-     }
-     this.classList.add('active');
-    
+     }     
+    this.classList.add('active');
  });
 }
+
+
+
+
+function loadImages(i){
+    i = i || 1;
+    var img = new Image();    
+    img.onload = function(){
+      document.body.appendChild(img);
+        loadImages(++i);
+    }
+    img.src = 'img/' +i + '.jpg';
+}
+
+loadImages(5);
+
+
+
+// var objects = PhotoCollage.getObjects();
+
+// console.log(objects);
+
+// for (var i = 0; i < objects.length; ) {
+//   if (objects[i].name == 'cropArea' || objects[i].name == 'bleedLine') {
+//     canvas.remove(objects[i]);
+//     i = 0;
+//   } else {
+//     i++;
+//   }
+// }

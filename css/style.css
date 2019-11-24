@@ -13,6 +13,8 @@ margin-left: 15px;
     height: 450px;
     width: 600px;
     display: inline-block;
+    margin: auto;
+    margin-top: 10px;
 }
 
 /*Canvas Collage*/
@@ -38,6 +40,7 @@ img{
 /*Image container*/
 .img-container{
   border: 1px solid black;
+  max-width: 600px;
 }
 
 
@@ -100,7 +103,7 @@ input[type="file"]:focus{
     position: relative;
     padding: 10px 30px;
     background: linear-gradient(to left, #1bd45c 0%, #FFF, #1bd45c);
-    border: 2px solid #337AB7;
+    border: 2px solid #16b01a;
     color: #000;
     font-weight: bold;
     text-transform: uppercase;
@@ -109,6 +112,8 @@ input[type="file"]:focus{
     text-align:center;
     background-size: 100% 100%;
     z-index: 1;
+    transition: all 0.8s;
+    cursor: pointer;
 }
 .feachers_list li:before {
     content: "";
@@ -117,7 +122,7 @@ input[type="file"]:focus{
     height: 100%;
     top: 50%;
     left: 50%;
-    background: linear-gradient(to left, #EBF3FA 0%, #FFF, #EBF3FA);
+    background: linear-gradient(to left, #b1f9af 0%, #FFF, #b1f9af);
     opacity: 0;
     -webkit-transform: translateX(-50%) translateY(-50%);
     -moz-transform: translateX(-50%) translateY(-50%);
@@ -132,6 +137,11 @@ input[type="file"]:focus{
     width: 100%;
     opacity: 1;
 }
+
+
+
+
+
 
 .feachers_list li.active{
 transform: translate(-50px,0);
